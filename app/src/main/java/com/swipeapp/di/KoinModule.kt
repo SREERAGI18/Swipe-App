@@ -4,10 +4,15 @@ import com.swipeapp.BuildConfig
 import com.swipeapp.network.ApiService
 import com.swipeapp.network.repository.ProductRepository
 import com.swipeapp.network.repository.ProductRepositoryImpl
+import com.swipeapp.room.SwipeDatabase
+import com.swipeapp.screens.productlist.ProductListVM
 import okhttp3.Interceptor
 import okhttp3.OkHttpClient
 import okhttp3.Request
 import okhttp3.logging.HttpLoggingInterceptor
+import org.koin.android.ext.koin.androidContext
+import org.koin.androidx.viewmodel.dsl.viewModel
+import org.koin.androidx.viewmodel.dsl.viewModelOf
 import org.koin.core.scope.get
 import org.koin.dsl.module
 import retrofit2.Retrofit
@@ -17,9 +22,17 @@ import java.util.concurrent.TimeUnit
 val networkModule = module {
     factory { provideOkHttpClient() }
     factory { provideApiService() }
+    factory { provideProductsDao(get()) }
+
     single { provideRetrofit(get()) }
     single<ProductRepository> { ProductRepositoryImpl(get()) }
+    single { SwipeDatabase.getDatabase(androidContext()) }
+
+    viewModel { ProductListVM(get(), get()) }
+
 }
+
+fun provideProductsDao(swipeDatabase: SwipeDatabase) = swipeDatabase.productsDao()
 
 fun provideRetrofit(okHttpClient: OkHttpClient): Retrofit =
     Retrofit.Builder()

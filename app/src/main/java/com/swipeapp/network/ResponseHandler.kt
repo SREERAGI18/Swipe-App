@@ -1,68 +1,42 @@
-package com.swipeapp.network.resources
+package com.swipeapp.network
 
-sealed class Response<out T : Any>{
-
-    /**
-     * abstract function to returns the content.
-     */
-    abstract fun getSuccessResponse():T?
-}
-
-class SuccessResponse<out T : Any>(
-    val data: T
-) :
-    Response<T>() {
-
-    private var hasBeenHandled = false
+/**
+ * ResponseHandler is a sealed class that is used to represent the result of a network request.
+ * It can be either a Success, Error, Loading or Idle response.
+ *
+ * @param T The type of the data to be returned.
+ * @property data The data that is returned as part of the response.
+ * @property message A message that provides additional information about the response.
+ */
+sealed class ResponseHandler<T>(
+    val data: T? = null,
+    val message: String? = null
+) {
 
     /**
-     * Returns the content and prevents its use again.
+     * Represents a successful response from the network request.
+     *
+     * @param data The data that was returned as part of the response.
      */
-    fun getContentIfNotHandled(): T? {
-        return if (hasBeenHandled) {
-            null
-        } else {
-            hasBeenHandled = true
-            data
-        }
-    }
+    class Success<T>(data: T) : ResponseHandler<T>(data)
 
     /**
-     * Returns the content, even if it's already been handled.
+     * Represents an error response from the network request.
+     *
+     * @param message A message that provides additional information about the error.
+     * @param data The data that was returned as part of the response (if any).
      */
-    fun peekContent(): T = data
-
-    override fun getSuccessResponse(): T {
-        return data
-    }
-}
-
-class ErrorResponse<out T : Any>(
-    val message: String = "Something Went Wrong",
-    val data: T?
-) :
-    Response<T>() {
-
-    private var hasBeenHandled = false
+    class Error<T>(message: String?, data: T? = null) : ResponseHandler<T>(data, message)
 
     /**
-     * Returns the content and prevents its use again.
+     * Represents a response while the network request is still in progress.
      */
-    fun getContentIfNotHandled(): T? {
-        return if (hasBeenHandled) {
-            null
-        } else {
-            hasBeenHandled = true
-            data
-        }
-    }
+    class Loading<T> : ResponseHandler<T>()
 
     /**
-     * Returns the content, even if it's already been handled.
+     * Represents an idle response, i.e. when no network request has been made yet.
+     *
+     * @param message A message that provides additional information about the response.
      */
-    fun peekContent(): T? = data
-
-    override fun getSuccessResponse(): T? {
-        return data
-    }
+    class Idle<T>(message: String?) : ResponseHandler<T>(null, message)
 }
