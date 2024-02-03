@@ -3,12 +3,27 @@ package com.swipeapp
 import android.app.Application
 import android.os.Build
 import androidx.appcompat.app.AppCompatDelegate
+import com.swipeapp.di.networkModule
 import com.swipeapp.utils.Logger
+import org.koin.android.ext.koin.androidContext
+import org.koin.android.ext.koin.androidFileProperties
+import org.koin.android.ext.koin.androidLogger
+import org.koin.core.context.GlobalContext.startKoin
 
 class SwipeApp: Application() {
 
     override fun onCreate() {
         super.onCreate()
+
+        startKoin {
+            // Log Koin into Android logger
+            androidLogger()
+            // Reference Android context
+            androidContext(this@SwipeApp)
+            // Load modules
+            modules(networkModule)
+            androidFileProperties()
+        }
 
         AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_NO)
 

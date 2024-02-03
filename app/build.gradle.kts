@@ -20,6 +20,8 @@ android {
         versionName = "1.0"
 
         testInstrumentationRunner = "androidx.test.runner.AndroidJUnitRunner"
+
+        buildConfigField("String", "API_URL", project.findProperty("API_URL")?.toString() ?: "")
     }
 
     buildTypes {
@@ -93,5 +95,11 @@ dependencies {
     // Work Manager - Kotlin + coroutines
     val work_version = "2.8.1"
     implementation("androidx.work:work-runtime-ktx:$work_version")
+
+
+    val koin_version = "3.5.0"
+    implementation("io.insert-koin:koin-android:$koin_version")
+    // use io.insert-koin:koin-android-viewmodel instead for non-androidx projects!
+    implementation("io.insert-koin:koin-core:$koin_version")
 
 }
