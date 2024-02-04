@@ -25,5 +25,8 @@
         <item name="cornerSize">10dp</item>
     </style>
 
+    <style name="TextFieldCursorColor" parent="">
+        <item name="colorControlActivated">@color/colorSecondary</item>
+    </style>
 
 </resources>

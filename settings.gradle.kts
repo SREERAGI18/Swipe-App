@@ -11,6 +11,13 @@ dependencyResolutionManagement {
         google()
         mavenCentral()
 
+        //noinspection JcenterRepositoryObsolete
+        jcenter() {
+            content {
+                includeModule("com.theartofdev.edmodo", "android-image-cropper")
+            }
+        }
+
 //        maven { url = uri("https://jitpack.io" ) }
     }
 }

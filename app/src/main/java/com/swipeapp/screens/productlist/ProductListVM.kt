@@ -26,24 +26,24 @@ class ProductListVM(
 
             productList.emit(ResponseHandler.Loading())
 
-            val products = productsDao.getAllProducts()
+            if(context.isOnline()) {
+                productRepository.getProducts().collect {
+                    productList.emit(it)
 
-            if(products.isEmpty()) {
-                if(context.isOnline()) {
-                    productRepository.getProducts().collect {
-                        productList.emit(it)
-
-                        it.data?.let { products ->
-                            productsDao.insertAllProducts(products)
-                        }
+                    it.data?.let { products ->
+                        productsDao.insertAllProducts(products)
                     }
-                }else{
+                }
+            }else{
+                val products = productsDao.getAllProducts()
+
+                if(products.isEmpty()) {
                     productList.emit(
                         ResponseHandler.Error(message = context.getString(R.string.no_internet_msg))
                     )
+                }else{
+                    productList.emit(ResponseHandler.Success(products))
                 }
-            }else{
-                productList.emit(ResponseHandler.Success(products))
             }
         }
     }

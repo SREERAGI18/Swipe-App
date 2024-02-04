@@ -1,0 +1,198 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools">
+
+    <data>
+
+    </data>
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:paddingBottom="30dp">
+
+        <TextView
+            android:id="@+id/title"
+            android:text="Add Product Details"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:textAlignment="center"
+            android:textColor="@color/black"
+            android:textStyle="bold"
+            android:textSize="16sp"
+            android:padding="10dp"
+            app:layout_constraintTop_toTopOf="parent"/>
+
+        <View
+            android:id="@+id/divider"
+            android:layout_width="match_parent"
+            android:layout_height="1dp"
+            android:background="#CDCDCD"
+            android:layout_marginStart="50dp"
+            android:layout_marginEnd="50dp"
+            app:layout_constraintTop_toBottomOf="@id/title"/>
+
+        <Spinner
+            android:id="@+id/productTypeSpinner"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:prompt="@string/product_tax_star"
+            android:background="@drawable/blue_outline"
+            android:popupBackground="@drawable/blue_outline_white_background"
+            android:spinnerMode="dropdown"
+            tools:listitem="@layout/item_product_drop_down"
+            android:layout_marginTop="10dp"
+            android:layout_marginStart="16dp"
+            android:layout_marginEnd="16dp"
+            app:layout_constraintTop_toBottomOf="@id/divider"/>
+
+        <com.google.android.material.textfield.TextInputLayout
+            android:id="@+id/productNameInputLayout"
+            android:layout_width="match_parent"
+            android:layout_height="50dp"
+            android:hint="@string/product_name_star"
+            android:theme="@style/TextFieldCursorColor"
+            app:errorTextColor="#E8505B"
+            app:boxStrokeErrorColor="#E8505B"
+            app:hintTextColor="@color/colorPrimary"
+            app:boxStrokeColor="@color/colorSecondary"
+            app:boxStrokeWidth="1dp"
+            app:boxStrokeWidthFocused="1dp"
+            app:boxCornerRadiusBottomEnd="8dp"
+            app:boxCornerRadiusBottomStart="8dp"
+            app:boxCornerRadiusTopEnd="8dp"
+            app:boxCornerRadiusTopStart="8dp"
+            android:layout_marginTop="10dp"
+            android:layout_marginStart="16dp"
+            android:layout_marginEnd="16dp"
+            app:layout_constraintTop_toBottomOf="@id/productTypeSpinner">
+
+            <com.google.android.material.textfield.TextInputEditText
+                android:id="@+id/productNameInputEdt"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:padding="0dp"
+                android:inputType="text"/>
+
+        </com.google.android.material.textfield.TextInputLayout>
+
+        <com.google.android.material.textfield.TextInputLayout
+            android:id="@+id/productPriceInputLayout"
+            android:layout_width="match_parent"
+            android:layout_height="50dp"
+            android:hint="@string/product_price_star"
+            android:theme="@style/TextFieldCursorColor"
+            app:errorTextColor="#E8505B"
+            app:boxStrokeErrorColor="#E8505B"
+            app:hintTextColor="@color/colorPrimary"
+            app:boxStrokeColor="@color/colorSecondary"
+            app:boxStrokeWidth="1dp"
+            app:boxStrokeWidthFocused="1dp"
+            app:boxCornerRadiusBottomEnd="8dp"
+            app:boxCornerRadiusBottomStart="8dp"
+            app:boxCornerRadiusTopEnd="8dp"
+            app:boxCornerRadiusTopStart="8dp"
+            android:layout_marginTop="10dp"
+            android:layout_marginStart="16dp"
+            android:layout_marginEnd="16dp"
+            app:layout_constraintTop_toBottomOf="@id/productNameInputLayout">
+
+            <com.google.android.material.textfield.TextInputEditText
+                android:id="@+id/productPriceInputEdt"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:padding="0dp"
+                android:inputType="number"/>
+
+        </com.google.android.material.textfield.TextInputLayout>
+
+        <com.google.android.material.textfield.TextInputLayout
+            android:id="@+id/productTaxInputLayout"
+            android:layout_width="match_parent"
+            android:layout_height="50dp"
+            android:hint="@string/product_tax_star"
+            android:theme="@style/TextFieldCursorColor"
+            app:errorTextColor="#E8505B"
+            app:boxStrokeErrorColor="#E8505B"
+            app:hintTextColor="@color/colorPrimary"
+            app:boxStrokeColor="@color/colorSecondary"
+            app:boxStrokeWidth="1dp"
+            app:boxStrokeWidthFocused="1dp"
+            app:boxCornerRadiusBottomEnd="8dp"
+            app:boxCornerRadiusBottomStart="8dp"
+            app:boxCornerRadiusTopEnd="8dp"
+            app:boxCornerRadiusTopStart="8dp"
+            android:layout_marginTop="10dp"
+            android:layout_marginStart="16dp"
+            android:layout_marginEnd="16dp"
+            app:layout_constraintTop_toBottomOf="@id/productPriceInputLayout">
+
+            <com.google.android.material.textfield.TextInputEditText
+                android:id="@+id/productTaxInputEdt"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:padding="0dp"
+                android:imeOptions="actionDone"
+                android:inputType="number"/>
+
+        </com.google.android.material.textfield.TextInputLayout>
+
+        <TextView
+            android:id="@+id/taxPercent"
+            android:layout_width="40dp"
+            android:layout_height="0dp"
+            android:text="%"
+            android:textSize="24sp"
+            android:textAlignment="center"
+            android:background="@drawable/rounded_rect_grey"
+            android:padding="4dp"
+            android:layout_marginTop="7dp"
+            android:layout_marginEnd="2dp"
+            android:layout_marginBottom="2dp"
+            app:layout_constraintTop_toTopOf="@id/productTaxInputLayout"
+            app:layout_constraintBottom_toBottomOf="@id/productTaxInputLayout"
+            app:layout_constraintEnd_toEndOf="@id/productTaxInputLayout"/>
+
+        <TextView
+            android:id="@+id/selectedImgTxt"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="Select Product Image"
+            android:background="@drawable/rounded_rect_grey"
+            android:paddingTop="10dp"
+            android:paddingBottom="10dp"
+            android:paddingStart="40dp"
+            android:paddingEnd="20dp"
+            android:layout_marginStart="16dp"
+            android:layout_marginEnd="16dp"
+            android:layout_marginTop="10dp"
+            app:layout_constraintTop_toBottomOf="@id/productTaxInputLayout"/>
+
+        <ImageView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:src="@drawable/attachment_file"
+            app:tint="#757575"
+            android:layout_marginStart="10dp"
+            app:layout_constraintTop_toTopOf="@id/selectedImgTxt"
+            app:layout_constraintBottom_toBottomOf="@id/selectedImgTxt"
+            app:layout_constraintStart_toStartOf="@id/selectedImgTxt"/>
+
+        <TextView
+            android:id="@+id/txtAddProduct"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:padding="10dp"
+            android:text="Add Product"
+            android:textColor="@color/white"
+            android:textStyle="bold"
+            android:textAlignment="center"
+            android:background="@drawable/rounded_rect_blue"
+            android:layout_marginStart="16dp"
+            android:layout_marginEnd="16dp"
+            android:layout_marginTop="10dp"
+            app:layout_constraintTop_toBottomOf="@id/selectedImgTxt" />
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
+</layout>

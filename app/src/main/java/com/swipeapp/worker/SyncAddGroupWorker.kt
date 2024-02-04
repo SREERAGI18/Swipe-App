@@ -29,7 +29,7 @@ class SyncAddGroupWorker(
         return if(list.isNotEmpty()) {
 //            val request = SyncGroupListRequest(list)
 //
-//            val response = NetworkRepository(context).syncGroupList(request)
+//            val response = ProductRepository(context).syncGroupList(request)
 //
 //            if(response is SuccessResponse) {
 //

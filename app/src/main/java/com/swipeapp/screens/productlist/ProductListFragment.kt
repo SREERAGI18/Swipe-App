@@ -4,7 +4,6 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.widget.Toast
 import androidx.databinding.DataBindingUtil
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.lifecycleScope
@@ -14,9 +13,7 @@ import com.swipeapp.network.ResponseHandler
 import com.swipeapp.screens.BasicDialog
 import kotlinx.coroutines.flow.collectLatest
 import kotlinx.coroutines.launch
-import org.koin.androidx.viewmodel.ext.android.sharedViewModel
 import org.koin.androidx.viewmodel.ext.android.viewModel
-import java.util.ArrayList
 
 /**
  * A simple [Fragment] subclass.
@@ -38,19 +35,25 @@ class ProductListFragment : Fragment() {
         binding = DataBindingUtil.inflate(inflater, R.layout.fragment_product_list, container, false)
 
         initViews()
+        setListeners()
         receiveFlowUpdates()
-
-        productListVM.getProductList(requireContext())
-
-        binding.txtReload.setOnClickListener {
-            productListVM.getProductList(requireContext())
-        }
 
         return binding.root
     }
 
+    override fun onResume() {
+        super.onResume()
+        productListVM.getProductList(requireContext())
+    }
+
     private fun initViews() {
         binding.productList.adapter = productListAdapter
+    }
+
+    private fun setListeners() {
+        binding.txtReload.setOnClickListener {
+            productListVM.getProductList(requireContext())
+        }
     }
 
     private fun receiveFlowUpdates() {
@@ -79,11 +82,9 @@ class ProductListFragment : Fragment() {
                         binding.progress.visibility = View.VISIBLE
                     }
                     is ResponseHandler.Success -> {
-
                         response.data?.let {
                             productListAdapter.updateProducts(it)
                         }
-
                     }
                 }
             }

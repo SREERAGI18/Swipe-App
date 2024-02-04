@@ -102,4 +102,8 @@ dependencies {
     // use io.insert-koin:koin-android-viewmodel instead for non-androidx projects!
     implementation("io.insert-koin:koin-core:$koin_version")
 
+
+    //crop profile image
+    implementation("com.theartofdev.edmodo:android-image-cropper:2.8.0")
+
 }

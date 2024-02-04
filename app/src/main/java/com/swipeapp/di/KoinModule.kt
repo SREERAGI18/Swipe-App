@@ -5,6 +5,7 @@ import com.swipeapp.network.ApiService
 import com.swipeapp.network.repository.ProductRepository
 import com.swipeapp.network.repository.ProductRepositoryImpl
 import com.swipeapp.room.SwipeDatabase
+import com.swipeapp.screens.MainVM
 import com.swipeapp.screens.productlist.ProductListVM
 import okhttp3.Interceptor
 import okhttp3.OkHttpClient
@@ -29,6 +30,7 @@ val networkModule = module {
     single { SwipeDatabase.getDatabase(androidContext()) }
 
     viewModel { ProductListVM(get(), get()) }
+    viewModel { MainVM(get()) }
 
 }
 
