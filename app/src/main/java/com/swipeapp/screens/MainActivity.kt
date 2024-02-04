@@ -11,7 +11,6 @@ import android.os.Bundle
 import android.provider.MediaStore
 import android.util.Log
 import android.view.View
-import android.view.Window
 import android.view.WindowManager
 import android.widget.Toast
 import androidx.activity.result.contract.ActivityResultContracts
@@ -20,7 +19,6 @@ import androidx.core.content.ContextCompat
 import androidx.core.content.FileProvider
 import androidx.databinding.DataBindingUtil
 import androidx.lifecycle.lifecycleScope
-import androidx.navigation.findNavController
 import androidx.navigation.fragment.NavHostFragment
 import com.swipeapp.BuildConfig
 import com.swipeapp.R
@@ -29,6 +27,9 @@ import com.swipeapp.network.ResponseHandler
 import com.swipeapp.network.models.AddProductRequest
 import com.swipeapp.screens.addproduct.AddProductBottomSheet
 import com.swipeapp.screens.addproduct.AddProductBottomSheetListener
+import com.swipeapp.screens.addproduct.AddProductResponseDialog
+import com.swipeapp.screens.addproduct.ImagePickerDialog
+import com.swipeapp.screens.addproduct.OnImagePickerClickListener
 import com.swipeapp.utils.FileProcessing
 import com.theartofdev.edmodo.cropper.CropImage
 import com.theartofdev.edmodo.cropper.CropImageView
@@ -44,8 +45,8 @@ class MainActivity : AppCompatActivity() {
     lateinit var binding: ActivityMainBinding
     val mainVM:MainVM by viewModel()
 
-    private var imagePickerDialog:ImagePickerDialog? = null
-    private var dialogAddProductResponse:AddProductResponseDialog? = null
+    private var imagePickerDialog: ImagePickerDialog? = null
+    private var dialogAddProductResponse: AddProductResponseDialog? = null
 
     private val navHostFragment by lazy { supportFragmentManager.findFragmentById(R.id.navHost) as NavHostFragment }
     private val navController by lazy { navHostFragment.navController }
@@ -120,7 +121,7 @@ class MainActivity : AppCompatActivity() {
 
     fun openImagePicker() {
         if(isPermissionGranted()) {
-            val listener = object :OnImagePickerClickListener {
+            val listener = object : OnImagePickerClickListener {
                 override fun onCameraClicked() {
                     openCamera()
                 }

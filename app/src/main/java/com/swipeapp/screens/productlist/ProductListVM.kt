@@ -47,4 +47,10 @@ class ProductListVM(
             }
         }
     }
+
+    fun searchProduct(query:String) {
+        viewModelScope.launch(Dispatchers.IO) {
+            productList.emit(ResponseHandler.Success(productsDao.searchProduct(query)))
+        }
+    }
 }

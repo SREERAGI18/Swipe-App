@@ -72,20 +72,6 @@ class AddProductBottomSheet(
 
         textInputValidators()
 
-//        binding.gallery.setOnClickListener {
-//            dismiss()
-//            listener.onGallerySelected()
-//        }
-//
-//        binding.takePicture.setOnClickListener {
-//            dismiss()
-//            listener.onCameraSelected()
-//        }
-//
-//        binding.cancel.setOnClickListener {
-//            dismiss()
-//        }
-
         return binding.root
     }
 

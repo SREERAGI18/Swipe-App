@@ -1,4 +1,4 @@
-package com.swipeapp.screens
+package com.swipeapp.screens.addproduct
 
 import android.app.Dialog
 import android.os.Bundle
@@ -8,34 +8,19 @@ import androidx.databinding.DataBindingUtil
 import androidx.fragment.app.DialogFragment
 import com.google.android.material.dialog.MaterialAlertDialogBuilder
 import com.swipeapp.R
-import com.swipeapp.databinding.DialogProductPicBinding
+import com.swipeapp.databinding.DialogAddProductResponseBinding
 
-class ImagePickerDialog(val listener: OnImagePickerClickListener): DialogFragment() {
+class AddProductResponseDialog: DialogFragment() {
 
-    lateinit var binding: DialogProductPicBinding
+    lateinit var binding: DialogAddProductResponseBinding
 
     override fun onCreateDialog(savedInstanceState: Bundle?): Dialog {
 
         binding = DataBindingUtil.inflate(
             LayoutInflater.from(requireContext()),
-            R.layout.dialog_product_pic,
+            R.layout.dialog_add_product_response,
             null, false
         )
-
-        binding.camera.setOnClickListener {
-            listener.onCameraClicked()
-            dismiss()
-        }
-
-        binding.gallery.setOnClickListener {
-            listener.onGalleryClicked()
-            dismiss()
-        }
-
-//        binding.yesBtn.setOnClickListener {
-//            listener.onYesClicked()
-//            dismiss()
-//        }
 
         return activity?.let {
             // Use the Builder class for convenient dialog construction
@@ -46,7 +31,7 @@ class ImagePickerDialog(val listener: OnImagePickerClickListener): DialogFragmen
 //                .setBackgroundInsetStart(it.getPxToDp(2))
 //                .setBackgroundInsetEnd(it.getPxToDp(2))
 
-            isCancelable = true
+            isCancelable = false
 
             // Create the AlertDialog object and return it
             builder.create()
@@ -58,10 +43,4 @@ class ImagePickerDialog(val listener: OnImagePickerClickListener): DialogFragmen
         dialog?.window?.clearFlags(WindowManager.LayoutParams.FLAG_DIM_BEHIND)
     }
 
-}
-
-interface OnImagePickerClickListener {
-
-    fun onCameraClicked()
-    fun onGalleryClicked()
 }
