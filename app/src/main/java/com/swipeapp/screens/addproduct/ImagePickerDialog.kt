@@ -22,6 +22,22 @@ class ImagePickerDialog(val listener: OnImagePickerClickListener): DialogFragmen
             null, false
         )
 
+        setListeners()
+
+        return activity?.let {
+            // Use the Builder class for convenient dialog construction
+
+            val builder = MaterialAlertDialogBuilder(it, R.style.MaterialAlertDialog_rounded)
+            builder.setView(binding.root)
+
+            isCancelable = true
+
+            // Create the AlertDialog object and return it
+            builder.create()
+        } ?: throw IllegalStateException("Activity cannot be null")
+    }
+
+    private fun setListeners() {
         binding.camera.setOnClickListener {
             listener.onCameraClicked()
             dismiss()
@@ -31,30 +47,11 @@ class ImagePickerDialog(val listener: OnImagePickerClickListener): DialogFragmen
             listener.onGalleryClicked()
             dismiss()
         }
-
-//        binding.yesBtn.setOnClickListener {
-//            listener.onYesClicked()
-//            dismiss()
-//        }
-
-        return activity?.let {
-            // Use the Builder class for convenient dialog construction
-
-            val builder = MaterialAlertDialogBuilder(it, R.style.MaterialAlertDialog_rounded)
-            builder
-                .setView(binding.root)
-//                .setBackgroundInsetStart(it.getPxToDp(2))
-//                .setBackgroundInsetEnd(it.getPxToDp(2))
-
-            isCancelable = true
-
-            // Create the AlertDialog object and return it
-            builder.create()
-        } ?: throw IllegalStateException("Activity cannot be null")
     }
 
     override fun onStart() {
         super.onStart()
+        // to remove transparent black background
         dialog?.window?.clearFlags(WindowManager.LayoutParams.FLAG_DIM_BEHIND)
     }
 

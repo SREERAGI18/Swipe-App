@@ -9,6 +9,8 @@ import android.util.DisplayMetrics
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.view.WindowManager
+import android.view.WindowMetrics
 import android.widget.AdapterView
 import android.widget.FrameLayout
 import android.widget.Toast
@@ -33,6 +35,7 @@ class AddProductBottomSheet(
 
     override fun onStart() {
         super.onStart()
+        // setup bottom sheet for full screen
         setupRatio(requireContext(),100)
     }
 
@@ -43,15 +46,22 @@ class AddProductBottomSheet(
     ): View {
         binding = DataBindingUtil.inflate(inflater, R.layout.bottom_sheet_add_product, container, false)
 
+        binding.productTypeSpinner.adapter = ProductTypeAdapter(requireContext())
+
+        setListeners()
+        textInputValidators()
+
+        return binding.root
+    }
+
+    private fun setListeners() {
         binding.selectedImgTxt.setOnClickListener {
             (activity as MainActivity).openImagePicker()
         }
 
         binding.txtAddProduct.setOnClickListener {
-            if(binding.productNameInputEdt.text?.isNotEmpty() == true &&
-                binding.productPriceInputEdt.text?.isNotEmpty() == true &&
-                binding.productTaxInputEdt.text?.isNotEmpty() == true
-            ) {
+            if(areDetailsValid()) {
+                // send data to main activity
                 listener.onAddProductClicked(
                     AddProductRequest(
                         productName = binding.productNameInputEdt.text.toString(),
@@ -66,7 +76,6 @@ class AddProductBottomSheet(
             }
         }
 
-        binding.productTypeSpinner.adapter = ProductTypeAdapter(requireContext())
         binding.productTypeSpinner.onItemSelectedListener = object : AdapterView.OnItemSelectedListener {
             override fun onItemSelected(p0: AdapterView<*>?, p1: View?, position: Int, p3: Long) {
                 if(position in ProductType.values().indices) {
@@ -78,10 +87,18 @@ class AddProductBottomSheet(
 
             }
         }
+    }
 
-        textInputValidators()
+    private fun areDetailsValid():Boolean {
 
-        return binding.root
+        binding.productTaxInputEdt.text?.toString()?.toDouble()?.let { taxRate ->
+            return (binding.productNameInputEdt.text?.isNotEmpty() == true &&
+                binding.productPriceInputEdt.text?.isNotEmpty() == true &&
+                binding.productTaxInputEdt.text?.isNotEmpty() == true &&
+                taxRate in 0.0..100.0)
+        }
+
+        return false
     }
 
     private fun textInputValidators() {
@@ -115,7 +132,6 @@ class AddProductBottomSheet(
                     binding.productPriceInputLayout.error = "Product price must not be empty"
                 }else{
                     binding.productPriceInputLayout.isErrorEnabled = false
-//                    binding.productNameInputLayout.error = "Product Name must not be empty"
                 }
             }
 
@@ -151,19 +167,16 @@ class AddProductBottomSheet(
         })
     }
 
-    fun setupRatio(context: Context, percetage: Int) {
-        //id = com.google.android.material.R.id.design_bottom_sheet for Material Components
-        //id = android.support.design.R.id.design_bottom_sheet for support librares
-
+    private fun setupRatio(context: Context, percentage: Int) {
         val behavior: BottomSheetBehavior<*> = BottomSheetBehavior.from(binding.parentLayout)
         val layoutParams = binding.parentLayout.layoutParams
-        layoutParams.height = getBottomSheetDialogDefaultHeight(context, percetage)
+        layoutParams.height = getBottomSheetDialogDefaultHeight(context, percentage)
         binding.parentLayout.layoutParams = layoutParams
         behavior.state = BottomSheetBehavior.STATE_EXPANDED
     }
 
-    private fun getBottomSheetDialogDefaultHeight(context: Context, percetage: Int): Int {
-        return getWindowHeight(context) * percetage / 100
+    private fun getBottomSheetDialogDefaultHeight(context: Context, percentage: Int): Int {
+        return getWindowHeight(context) * percentage / 100
     }
 
     private fun getWindowHeight(context: Context): Int {

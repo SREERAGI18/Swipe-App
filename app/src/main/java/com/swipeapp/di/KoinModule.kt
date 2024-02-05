@@ -22,7 +22,7 @@ import java.util.concurrent.TimeUnit
 
 val networkModule = module {
     factory { provideOkHttpClient() }
-    factory { provideApiService() }
+    factory { provideApiService(get()) }
     factory { provideProductsDao(get()) }
     factory { provideSyncAddProductsDao(get()) }
 
@@ -38,15 +38,22 @@ val networkModule = module {
 fun provideProductsDao(swipeDatabase: SwipeDatabase) = swipeDatabase.productsDao()
 fun provideSyncAddProductsDao(swipeDatabase: SwipeDatabase) = swipeDatabase.syncAddProductsDao()
 
+/**
+ * method which returns [Retrofit] used to build Retrofit instance
+ *       @return [Retrofit]
+ */
 fun provideRetrofit(okHttpClient: OkHttpClient): Retrofit =
     Retrofit.Builder()
-        .baseUrl(BuildConfig.API_URL)
+        .baseUrl(BuildConfig.API_URL) // API_URL defined in gradle.properties
         .client(okHttpClient)
         .addConverterFactory(GsonConverterFactory.create())
         .build()
 
-fun provideApiService(): ApiService =
-    provideRetrofit(provideOkHttpClient()).create(ApiService::class.java)
+/**
+ * method which returns [ApiService] used to make all the http requests
+ *       @return [ApiService]
+ */
+fun provideApiService(retrofit: Retrofit): ApiService = retrofit.create(ApiService::class.java)
 
 /**
  * method which returns [OkHttpClient] used to build retrofit service
@@ -67,6 +74,7 @@ fun provideOkHttpClient(): OkHttpClient {
         chain.proceed(request)
     })
     if (BuildConfig.DEBUG) {
+        // Http logging for showing http requests and responses in log
         builder.addInterceptor(HttpLoggingInterceptor().apply {
             level = HttpLoggingInterceptor.Level.BODY
         })

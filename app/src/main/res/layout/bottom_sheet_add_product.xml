@@ -67,7 +67,7 @@
             <com.google.android.material.textfield.TextInputLayout
                 android:id="@+id/productNameInputLayout"
                 android:layout_width="match_parent"
-                android:layout_height="50dp"
+                android:layout_height="wrap_content"
                 android:hint="@string/product_name_star"
                 android:theme="@style/TextFieldCursorColor"
                 app:errorTextColor="#E8505B"
@@ -89,7 +89,6 @@
                     android:id="@+id/productNameInputEdt"
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
-                    android:padding="0dp"
                     android:inputType="text"/>
 
             </com.google.android.material.textfield.TextInputLayout>
@@ -97,7 +96,7 @@
             <com.google.android.material.textfield.TextInputLayout
                 android:id="@+id/productPriceInputLayout"
                 android:layout_width="match_parent"
-                android:layout_height="50dp"
+                android:layout_height="wrap_content"
                 android:hint="@string/product_price_star"
                 android:theme="@style/TextFieldCursorColor"
                 app:errorTextColor="#E8505B"
@@ -119,7 +118,6 @@
                     android:id="@+id/productPriceInputEdt"
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
-                    android:padding="0dp"
                     android:inputType="number"/>
 
             </com.google.android.material.textfield.TextInputLayout>
@@ -127,7 +125,7 @@
             <com.google.android.material.textfield.TextInputLayout
                 android:id="@+id/productTaxInputLayout"
                 android:layout_width="match_parent"
-                android:layout_height="50dp"
+                android:layout_height="wrap_content"
                 android:hint="@string/product_tax_star"
                 android:theme="@style/TextFieldCursorColor"
                 app:errorTextColor="#E8505B"
@@ -149,7 +147,6 @@
                     android:id="@+id/productTaxInputEdt"
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
-                    android:padding="0dp"
                     android:imeOptions="actionDone"
                     android:inputType="number"/>
 

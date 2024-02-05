@@ -3,8 +3,12 @@ package com.swipeapp.room.typeconverters
 import androidx.room.TypeConverter
 import com.google.gson.Gson
 import com.google.gson.reflect.TypeToken
+import com.swipeapp.network.ApiService
 import java.lang.reflect.Type
 
+/**
+ * This is used to explain Room DB how to store and get List<String>
+ */
 class StringListConverter {
 
     @TypeConverter

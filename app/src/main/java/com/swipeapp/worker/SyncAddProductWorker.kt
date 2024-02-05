@@ -4,27 +4,34 @@ import android.content.Context
 import android.provider.UserDictionary
 import androidx.work.CoroutineWorker
 import androidx.work.WorkerParameters
+import com.swipeapp.di.provideApiService
+import com.swipeapp.di.provideOkHttpClient
+import com.swipeapp.di.provideRetrofit
 import com.swipeapp.network.ResponseHandler
 import com.swipeapp.network.models.AddProductRequest
 import com.swipeapp.network.repository.ProductRepository
+import com.swipeapp.network.repository.ProductRepositoryImpl
 import com.swipeapp.room.SwipeDatabase
 import com.swipeapp.room.dao.SyncAddProductsDao
 import com.swipeapp.room.entities.SyncAddProducts
+import com.swipeapp.utils.Logger
 
 class SyncAddProductWorker(
     private val context: Context,
-    workerParameters: WorkerParameters,
-    private val syncAddProductsDao: SyncAddProductsDao,
-    private val productRepository: ProductRepository
+    workerParameters: WorkerParameters
 ): CoroutineWorker(context, workerParameters) {
 
-    private val syncAddGroupDao = SwipeDatabase.getDatabase(context).syncAddProductsDao()
     override suspend fun doWork(): Result {
-        val syncAddProducts = syncAddGroupDao.getAllSyncAddProducts()
+        val syncAddProductsDao: SyncAddProductsDao = SwipeDatabase.getDatabase(context).syncAddProductsDao()
+        val apiService = provideApiService(provideRetrofit(provideOkHttpClient()))
+        val productRepository = ProductRepositoryImpl(apiService)
+
+        val syncAddProducts = syncAddProductsDao.getAllSyncAddProducts()
 
         return if(syncAddProducts.isNotEmpty()) {
 
             syncAddProducts.forEach { syncAddProduct ->
+                Logger.levelError("Add Product Sync", syncAddProduct.toString())
                 productRepository.addProduct(
                     AddProductRequest(
                         productName = syncAddProduct.productName,
@@ -35,6 +42,8 @@ class SyncAddProductWorker(
                     )
                 )
             }
+
+            syncAddProductsDao.deleteAllSyncAddProducts()
 
             Result.success()
         }else {

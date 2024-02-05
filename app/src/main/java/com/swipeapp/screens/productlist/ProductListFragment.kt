@@ -45,8 +45,6 @@ class ProductListFragment : Fragment() {
         setListeners()
         receiveFlowUpdates()
 
-//        getProducts()
-
         return binding.root
     }
 
@@ -72,6 +70,8 @@ class ProductListFragment : Fragment() {
 
             override fun onQueryTextChange(newText: String?): Boolean {
                 if (newText != null) {
+                    // search product from database if query is not empty
+                    // otherwise get products from data source
                     if(newText.isNotEmpty()) {
                         productListVM.searchProduct("$newText%")
                     }else{
@@ -91,6 +91,7 @@ class ProductListFragment : Fragment() {
                     || event?.action == KeyEvent.ACTION_DOWN
                     && event.keyCode == KeyEvent.KEYCODE_ENTER
                 ) {
+                    // hide keyboard when action done is pressed
                     requireActivity().hideSoftKeyboard()
                     searchEdt.clearFocus()
                     return true
@@ -128,7 +129,8 @@ class ProductListFragment : Fragment() {
                     }
                     is ResponseHandler.Success -> {
                         response.data?.let {
-                            productListAdapter.updateProducts(it)
+                            // list reversed to get last added first
+                            productListAdapter.updateProducts(it.reversed())
                             delay(100)
                             binding.productList.scrollToPosition(0)
                         }

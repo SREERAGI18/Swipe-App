@@ -45,7 +45,7 @@ import kotlinx.coroutines.flow.collectLatest
 import kotlinx.coroutines.launch
 import org.koin.androidx.viewmodel.ext.android.viewModel
 import java.io.File
-import java.lang.Exception
+import kotlin.Exception
 
 
 class MainActivity : AppCompatActivity() {
@@ -63,12 +63,15 @@ class MainActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         binding = DataBindingUtil.setContentView(this, R.layout.activity_main)
 
+        setListeners()
+        setStatusBarColor()
+        receiveFlowUpdates()
+    }
+
+    private fun setListeners() {
         binding.fab.setOnClickListener {
             showAddProductBottomSheet()
         }
-
-        setStatusBarColor()
-        receiveFlowUpdates()
     }
 
     private fun setStatusBarColor() {
@@ -101,7 +104,6 @@ class MainActivity : AppCompatActivity() {
                     is ResponseHandler.Loading -> {
                         dialogAddProductResponse = AddProductResponseDialog()
                         dialogAddProductResponse?.show(supportFragmentManager, "Add Product Response")
-                        dialogAddProductResponse?.binding?.responseMessage?.text = "Adding Product..."
                     }
                     is ResponseHandler.Success -> {
                         addProductBottomSheet?.dismiss()
@@ -118,8 +120,6 @@ class MainActivity : AppCompatActivity() {
                             refreshCurrentFragment()
                         }
                     }
-
-                    else -> {}
                 }
             }
         }

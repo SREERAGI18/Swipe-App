@@ -16,7 +16,7 @@ interface ProductsDao {
     @Insert(onConflict = OnConflictStrategy.REPLACE)
     suspend fun insertProduct(product:Products?):Long
 
-    @Query("SELECT * FROM products ORDER BY product_name ASC")
+    @Query("SELECT * FROM products")
     suspend fun getAllProducts(): List<Products>
 
     @Query("SELECT * FROM products WHERE product_name LIKE :searchQuery ORDER BY product_name ASC")

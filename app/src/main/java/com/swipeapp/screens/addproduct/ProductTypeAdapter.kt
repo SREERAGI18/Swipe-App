@@ -13,6 +13,8 @@ import org.jetbrains.annotations.Nullable
 class ProductTypeAdapter(
     context: Context
 ) : ArrayAdapter<ProductType?>(context, 0, ProductType.values()) {
+
+    // when drop down not expanded
     override fun getView(position: Int, convertView: View?, parent: ViewGroup): View {
         val view = convertView ?: LayoutInflater.from(parent.context).inflate(R.layout.item_product_drop_down, parent, false)
         getItem(position)?.let { productType ->
@@ -21,6 +23,7 @@ class ProductTypeAdapter(
         return view
     }
 
+    // expanded drop down view
     override fun getDropDownView(position: Int, convertView: View?, parent: ViewGroup): View {
         val view = convertView ?: LayoutInflater.from(parent.context).inflate(R.layout.item_product_drop_down, parent, false)
         getItem(position)?.let { productType ->
@@ -32,12 +35,9 @@ class ProductTypeAdapter(
     private fun initView(
         position: Int, convertView: View
     ): View {
-        // It is used to set our custom view.
         val textViewName = convertView.findViewById<TextView>(R.id.productType)
         val currentItem: ProductType? = getItem(position)
 
-        // It is used the name to the TextView when the
-        // current item is not null.
         if (currentItem != null) {
             textViewName.text = currentItem.type
         }

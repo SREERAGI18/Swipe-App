@@ -26,10 +26,7 @@ class AddProductResponseDialog: DialogFragment() {
             // Use the Builder class for convenient dialog construction
 
             val builder = MaterialAlertDialogBuilder(it, R.style.MaterialAlertDialog_rounded)
-            builder
-                .setView(binding.root)
-//                .setBackgroundInsetStart(it.getPxToDp(2))
-//                .setBackgroundInsetEnd(it.getPxToDp(2))
+            builder.setView(binding.root)
 
             isCancelable = false
 
@@ -40,6 +37,7 @@ class AddProductResponseDialog: DialogFragment() {
 
     override fun onStart() {
         super.onStart()
+        // to remove transparent black background
         dialog?.window?.clearFlags(WindowManager.LayoutParams.FLAG_DIM_BEHIND)
     }
 

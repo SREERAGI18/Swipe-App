@@ -21,6 +21,10 @@ class ProductListVM(
 
     val productList = MutableStateFlow<ResponseHandler<List<Products?>>>(ResponseHandler.Idle("Idle State"))
 
+    /**
+     * get products from server when connected to internet
+     * otherwise from local database
+     */
     fun getProductList(context: Context) {
         viewModelScope.launch(Dispatchers.IO) {
 

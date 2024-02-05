@@ -56,6 +56,7 @@ class ProductRepositoryImpl(private val retrofitService:ApiService) : ProductRep
 
         val builder: MultipartBody.Builder = MultipartBody.Builder().setType(MultipartBody.FORM)
 
+        // add image files if available
         addProductRequest.productImages.forEach { filePath ->
             val image = File(filePath)
             if (image.exists()) {

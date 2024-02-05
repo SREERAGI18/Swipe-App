@@ -35,9 +35,7 @@ class MainVM(
                     addProductResponse.emit(it)
                 }
             }else{
-//                addProductResponse.emit(
-//                    ResponseHandler.Error(message = context.getString(R.string.no_internet_msg))
-//                )
+                // try catch to avoid exception thrown due to type casting
                 try {
                     productsDao.insertProduct(
                         Products(
@@ -66,7 +64,7 @@ class MainVM(
                 addProductResponse.emit(
                     ResponseHandler.Success(
                         AddProductResponse(
-                            message = "Product added for sync. Data will be sync on next connection to internet"
+                            message = "Product added for sync. Data will be synced on next connection to internet"
                         )
                     )
                 )
