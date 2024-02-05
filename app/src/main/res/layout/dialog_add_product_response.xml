@@ -9,7 +9,8 @@
 
     <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
-        android:layout_height="100dp">
+        android:layout_height="wrap_content"
+        android:padding="20dp">
 
         <ProgressBar
             android:id="@+id/progress"
@@ -28,7 +29,7 @@
             android:layout_height="75dp"
             android:src="@mipmap/success_tick"
             android:layout_marginTop="20dp"
-            android:visibility="gone"
+            android:visibility="invisible"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintTop_toTopOf="parent"/>

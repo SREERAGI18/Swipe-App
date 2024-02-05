@@ -28,8 +28,13 @@ class AddProductBottomSheet(
 
     lateinit var binding: BottomSheetAddProductBinding
 
-    var selectedProductType:ProductType? = null
+    var selectedProductType = ProductType.PRODUCT
     var images = mutableListOf<String>()
+
+    override fun onStart() {
+        super.onStart()
+        setupRatio(requireContext(),100)
+    }
 
     override fun onCreateView(
         inflater: LayoutInflater,
@@ -45,20 +50,17 @@ class AddProductBottomSheet(
         binding.txtAddProduct.setOnClickListener {
             if(binding.productNameInputEdt.text?.isNotEmpty() == true &&
                 binding.productPriceInputEdt.text?.isNotEmpty() == true &&
-                binding.productTaxInputEdt.text?.isNotEmpty() == true &&
-                selectedProductType != null
+                binding.productTaxInputEdt.text?.isNotEmpty() == true
             ) {
-                selectedProductType?.type?.let { it1 ->
+                listener.onAddProductClicked(
                     AddProductRequest(
                         productName = binding.productNameInputEdt.text.toString(),
-                        productType = it1,
+                        productType = selectedProductType.type,
                         productPrice = binding.productPriceInputEdt.text.toString(),
                         productTax = binding.productTaxInputEdt.text.toString(),
                         productImages = images
                     )
-                }?.let { it2 ->
-                    listener.onAddProductClicked(it2)
-                }
+                )
             }else {
                 Toast.makeText(requireContext(), "Fill all the required fields", Toast.LENGTH_LONG).show()
             }
@@ -67,8 +69,8 @@ class AddProductBottomSheet(
         binding.productTypeSpinner.adapter = ProductTypeAdapter(requireContext())
         binding.productTypeSpinner.onItemSelectedListener = object : AdapterView.OnItemSelectedListener {
             override fun onItemSelected(p0: AdapterView<*>?, p1: View?, position: Int, p3: Long) {
-                if(position-1 in ProductType.values().indices) {
-                    selectedProductType = ProductType.values()[position-1]
+                if(position in ProductType.values().indices) {
+                    selectedProductType = ProductType.values()[position]
                 }
             }
 
@@ -158,11 +160,6 @@ class AddProductBottomSheet(
         layoutParams.height = getBottomSheetDialogDefaultHeight(context, percetage)
         binding.parentLayout.layoutParams = layoutParams
         behavior.state = BottomSheetBehavior.STATE_EXPANDED
-    }
-
-    override fun onStart() {
-        super.onStart()
-        setupRatio(requireContext(),100)
     }
 
     private fun getBottomSheetDialogDefaultHeight(context: Context, percetage: Int): Int {

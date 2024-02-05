@@ -101,6 +101,7 @@ class MainActivity : AppCompatActivity() {
                     is ResponseHandler.Loading -> {
                         dialogAddProductResponse = AddProductResponseDialog()
                         dialogAddProductResponse?.show(supportFragmentManager, "Add Product Response")
+                        dialogAddProductResponse?.binding?.responseMessage?.text = "Adding Product..."
                     }
                     is ResponseHandler.Success -> {
                         addProductBottomSheet?.dismiss()

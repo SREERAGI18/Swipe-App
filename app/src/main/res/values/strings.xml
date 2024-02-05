@@ -2,7 +2,7 @@
     <string name="app_name">Swipe App</string>
     <string name="no_internet_msg">You are not connected to internet.</string>
     <string name="product_name_star">Product Name<sup>*</sup></string>
-    <string name="product_type_star">Product Type<sup>*</sup></string>
+    <string name="product_type_star">Select Product Type<sup>*</sup></string>
     <string name="product_price_star">Product Price<sup>*</sup></string>
     <string name="product_tax_star">Product Tax<sup>*</sup></string>
 </resources>
