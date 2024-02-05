@@ -2,6 +2,10 @@ package com.swipeapp.screens
 
 import android.Manifest
 import android.app.Activity
+import android.app.NotificationChannel
+import android.app.NotificationManager
+import android.app.PendingIntent
+import android.content.Context
 import android.content.Intent
 import android.content.pm.PackageManager
 import android.graphics.Color
@@ -15,6 +19,8 @@ import android.view.WindowManager
 import android.widget.Toast
 import androidx.activity.result.contract.ActivityResultContracts
 import androidx.appcompat.app.AppCompatActivity
+import androidx.core.app.NotificationCompat
+import androidx.core.app.NotificationManagerCompat
 import androidx.core.content.ContextCompat
 import androidx.core.content.FileProvider
 import androidx.databinding.DataBindingUtil
@@ -30,6 +36,7 @@ import com.swipeapp.screens.addproduct.AddProductBottomSheetListener
 import com.swipeapp.screens.addproduct.AddProductResponseDialog
 import com.swipeapp.screens.addproduct.ImagePickerDialog
 import com.swipeapp.screens.addproduct.OnImagePickerClickListener
+import com.swipeapp.utils.Constants
 import com.swipeapp.utils.FileProcessing
 import com.theartofdev.edmodo.cropper.CropImage
 import com.theartofdev.edmodo.cropper.CropImageView
@@ -38,6 +45,7 @@ import kotlinx.coroutines.flow.collectLatest
 import kotlinx.coroutines.launch
 import org.koin.androidx.viewmodel.ext.android.viewModel
 import java.io.File
+import java.lang.Exception
 
 
 class MainActivity : AppCompatActivity() {
@@ -96,20 +104,51 @@ class MainActivity : AppCompatActivity() {
                     }
                     is ResponseHandler.Success -> {
                         addProductBottomSheet?.dismiss()
+
                         dialogAddProductResponse?.binding?.apply {
                             progress.visibility = View.GONE
                             tickImg.visibility = View.VISIBLE
-                            responseMessage.text = response.data?.message
+                            response.data?.message?.let { message ->
+                                responseMessage.text = message
+                                triggerNotification(message)
+                            }
                             delay(2000)
                             dialogAddProductResponse?.dismiss()
                             refreshCurrentFragment()
                         }
                     }
+
+                    else -> {}
                 }
             }
         }
     }
 
+    private fun triggerNotification(message:String) {
+
+        val notificationManager: NotificationManager = getSystemService(Context.NOTIFICATION_SERVICE) as NotificationManager
+
+        /***
+         * Notice that the NotificationCompat.Builder constructor requires that you provide a channel ID.
+         * This is required for compatibility with Android 8.0 (API level 26) and higher,
+         * but is ignored by older versions.
+         */
+        val notificationBuilder: NotificationCompat.Builder =
+            NotificationCompat.Builder(this, Constants.NOTIFICATION_CHANNEL_ID)
+                .setSmallIcon(R.mipmap.app_icon_round)
+                .setContentTitle(getString(R.string.app_name))
+                .setContentText(message)
+                .setPriority(NotificationCompat.PRIORITY_DEFAULT)
+                // Automatically removes the notification when the user taps it.
+                .setAutoCancel(true)
+
+        try {
+            // notificationId is a unique int for each notification that you must define
+            notificationManager.notify(0, notificationBuilder.build())
+        }catch (e:SecurityException) {
+            e.printStackTrace()
+        }
+    }
     private fun refreshCurrentFragment() {
         navController.apply {
             currentDestination?.id?.let { id ->

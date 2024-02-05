@@ -17,6 +17,7 @@ import com.swipeapp.databinding.FragmentProductListBinding
 import com.swipeapp.network.ResponseHandler
 import com.swipeapp.screens.BasicDialog
 import com.swipeapp.utils.hideSoftKeyboard
+import kotlinx.coroutines.delay
 import kotlinx.coroutines.flow.collectLatest
 import kotlinx.coroutines.launch
 import org.koin.androidx.viewmodel.ext.android.viewModel
@@ -44,7 +45,7 @@ class ProductListFragment : Fragment() {
         setListeners()
         receiveFlowUpdates()
 
-        getProducts()
+//        getProducts()
 
         return binding.root
     }
@@ -128,6 +129,8 @@ class ProductListFragment : Fragment() {
                     is ResponseHandler.Success -> {
                         response.data?.let {
                             productListAdapter.updateProducts(it)
+                            delay(100)
+                            binding.productList.scrollToPosition(0)
                         }
                     }
                 }

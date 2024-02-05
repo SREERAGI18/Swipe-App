@@ -4,18 +4,17 @@ import android.content.Context
 import androidx.room.Database
 import androidx.room.Room
 import androidx.room.RoomDatabase
+import androidx.room.TypeConverters
 import com.swipeapp.room.dao.ProductsDao
-import com.swipeapp.room.dao.WordsDao
+import com.swipeapp.room.dao.SyncAddProductsDao
 import com.swipeapp.room.entities.Products
-import com.swipeapp.room.entities.Words
-import com.swipeapp.room.relations.CategoryChooseTranslationCrossRef
+import com.swipeapp.room.entities.SyncAddProducts
+import com.swipeapp.room.typeconverters.StringListConverter
 import com.swipeapp.utils.Logger
 
 
-@Database(entities = [
-    Words::class,
-    CategoryChooseTranslationCrossRef::class, Products::class], exportSchema = false, version = 1
-)
+@Database(entities = [Products::class, SyncAddProducts::class], exportSchema = false, version = 1)
+@TypeConverters(StringListConverter::class)
 abstract class SwipeDatabase: RoomDatabase() {
 
     companion object{
@@ -45,6 +44,6 @@ abstract class SwipeDatabase: RoomDatabase() {
 
     }
 
-    abstract fun wordsDao():WordsDao
     abstract fun productsDao():ProductsDao
+    abstract fun syncAddProductsDao(): SyncAddProductsDao
 }

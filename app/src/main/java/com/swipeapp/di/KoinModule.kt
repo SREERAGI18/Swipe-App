@@ -24,17 +24,19 @@ val networkModule = module {
     factory { provideOkHttpClient() }
     factory { provideApiService() }
     factory { provideProductsDao(get()) }
+    factory { provideSyncAddProductsDao(get()) }
 
     single { provideRetrofit(get()) }
     single<ProductRepository> { ProductRepositoryImpl(get()) }
     single { SwipeDatabase.getDatabase(androidContext()) }
 
     viewModel { ProductListVM(get(), get()) }
-    viewModel { MainVM(get()) }
+    viewModel { MainVM(get(), get(), get()) }
 
 }
 
 fun provideProductsDao(swipeDatabase: SwipeDatabase) = swipeDatabase.productsDao()
+fun provideSyncAddProductsDao(swipeDatabase: SwipeDatabase) = swipeDatabase.syncAddProductsDao()
 
 fun provideRetrofit(okHttpClient: OkHttpClient): Retrofit =
     Retrofit.Builder()

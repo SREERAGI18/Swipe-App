@@ -4,11 +4,11 @@ import com.google.gson.annotations.SerializedName
 
 data class AddProductResponse(
     @SerializedName("message")
-    val message: String?,
+    val message: String? = null,
     @SerializedName("product_details")
-    val productDetails: Product?,
+    val productDetails: Product? = null,
     @SerializedName("product_id")
-    val productId: Int?,
+    val productId: Int? = null,
     @SerializedName("success")
-    val success: Boolean?
+    val success: Boolean? = null
 )

@@ -1,19 +1,26 @@
 package com.swipeapp.screens.addproduct
 
+import android.app.Activity
+import android.content.Context
 import android.os.Bundle
 import android.text.Editable
 import android.text.TextWatcher
+import android.util.DisplayMetrics
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.AdapterView
+import android.widget.FrameLayout
 import android.widget.Toast
 import androidx.databinding.DataBindingUtil
+import com.google.android.material.bottomsheet.BottomSheetBehavior
+import com.google.android.material.bottomsheet.BottomSheetDialog
 import com.google.android.material.bottomsheet.BottomSheetDialogFragment
 import com.swipeapp.R
 import com.swipeapp.databinding.BottomSheetAddProductBinding
 import com.swipeapp.network.models.AddProductRequest
 import com.swipeapp.screens.MainActivity
+
 
 class AddProductBottomSheet(
     private val listener: AddProductBottomSheetListener
@@ -140,6 +147,33 @@ class AddProductBottomSheet(
 
             }
         })
+    }
+
+    fun setupRatio(context: Context, percetage: Int) {
+        //id = com.google.android.material.R.id.design_bottom_sheet for Material Components
+        //id = android.support.design.R.id.design_bottom_sheet for support librares
+
+        val behavior: BottomSheetBehavior<*> = BottomSheetBehavior.from(binding.parentLayout)
+        val layoutParams = binding.parentLayout.layoutParams
+        layoutParams.height = getBottomSheetDialogDefaultHeight(context, percetage)
+        binding.parentLayout.layoutParams = layoutParams
+        behavior.state = BottomSheetBehavior.STATE_EXPANDED
+    }
+
+    override fun onStart() {
+        super.onStart()
+        setupRatio(requireContext(),100)
+    }
+
+    private fun getBottomSheetDialogDefaultHeight(context: Context, percetage: Int): Int {
+        return getWindowHeight(context) * percetage / 100
+    }
+
+    private fun getWindowHeight(context: Context): Int {
+        // Calculate window height for fullscreen use
+        val displayMetrics = DisplayMetrics()
+        (context as Activity?)?.windowManager?.defaultDisplay?.getMetrics(displayMetrics)
+        return displayMetrics.heightPixels
     }
 
 }
