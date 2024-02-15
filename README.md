@@ -1,3 +1,6 @@
+# This is an assignment project for Swipe Billing App
+https://getswipe.in/
+
 AGP verion = 8.1.10
 kotlin version = 1.8.10
 jdk version = 17
